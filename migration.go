@@ -123,7 +123,7 @@ func CreateMigration(name, migrationType, dir string, t time.Time) (path string,
 func (c *Client) FinalizeMigration(tx *sql.Tx, direction bool, v int64) error {
 
 	// XXX: drop goose_db_version table on some minimum version number?
-	stmt := c.GetDialect().insertVersionSql(c.TableName)
+	stmt := c.Dialect.insertVersionSql(c.TableName)
 	if _, err := tx.Exec(stmt, v, direction); err != nil {
 		tx.Rollback()
 		return err

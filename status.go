@@ -16,7 +16,7 @@ func (c *Client) Status(db *sql.DB, dir string) error {
 	}
 
 	// must ensure that the version table exists if we're running on a pristine DB
-	if _, err := c.EnsureDBVersion(db); err != nil {
+	if _, err := c.GetDBVersion(db); err != nil {
 		return err
 	}
 

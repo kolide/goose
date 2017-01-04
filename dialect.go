@@ -13,12 +13,8 @@ type SqlDialect interface {
 	dbVersionQuery(db *sql.DB, name string) (*sql.Rows, error)
 }
 
-func (c *Client) GetDialect() SqlDialect {
-	return c.Dialect
-}
-
 func GetDialect() SqlDialect {
-	return globalGoose.GetDialect()
+	return globalGoose.Dialect
 }
 
 func (c *Client) SetDialect(d string) error {

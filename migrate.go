@@ -160,9 +160,9 @@ func versionFilter(v, current, target int64) bool {
 
 // retrieve the current version for this DB.
 // Create and initialize the DB version table if it doesn't exist.
-func (c *Client) EnsureDBVersion(db *sql.DB) (int64, error) {
+func (c *Client) GetDBVersion(db *sql.DB) (int64, error) {
 
-	rows, err := c.GetDialect().dbVersionQuery(db, c.TableName)
+	rows, err := c.Dialect.dbVersionQuery(db, c.TableName)
 	if err != nil {
 		return 0, c.createVersionTable(db)
 	}
@@ -213,7 +213,7 @@ func (c *Client) createVersionTable(db *sql.DB) error {
 		return err
 	}
 
-	d := c.GetDialect()
+	d := c.Dialect
 
 	if _, err := txn.Exec(d.createVersionTableSql(c.TableName)); err != nil {
 		txn.Rollback()
@@ -228,15 +228,4 @@ func (c *Client) createVersionTable(db *sql.DB) error {
 	}
 
 	return txn.Commit()
-}
-
-// wrapper for EnsureDBVersion for callers that don't already have
-// their own DB instance
-func (c *Client) GetDBVersion(db *sql.DB) (int64, error) {
-	version, err := c.EnsureDBVersion(db)
-	if err != nil {
-		return -1, err
-	}
-
-	return version, nil
 }
