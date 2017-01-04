@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (c *Client) Up(db *sql.DB, dir string) error {
+func (c *client) Up(db *sql.DB, dir string) error {
 	migrations, err := c.collectMigrations(dir, minVersion, maxVersion)
 	if err != nil {
 		return err
@@ -34,7 +34,7 @@ func (c *Client) Up(db *sql.DB, dir string) error {
 	return nil
 }
 
-func (c *Client) UpByOne(db *sql.DB, dir string) error {
+func (c *client) UpByOne(db *sql.DB, dir string) error {
 	migrations, err := c.collectMigrations(dir, minVersion, maxVersion)
 	if err != nil {
 		return err

@@ -6,15 +6,21 @@ import (
 )
 
 var (
-	goose      = Client{}
 	minVersion = int64(0)
 	maxVersion = int64((1 << 63) - 1)
 )
 
-type Client struct {
+type client struct {
 	TableName  string
-	Migrations Migrations
 	Dialect    SqlDialect
+	migrations Migrations
+}
+
+func New(tableName string, dialect SqlDialect) *client {
+	return &client{
+		TableName: tableName,
+		Dialect:   dialect,
+	}
 }
 
 func Run(command string, db *sql.DB, dir string, args ...string) error {

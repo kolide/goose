@@ -38,7 +38,7 @@ func (m *Migration) String() string {
 	return fmt.Sprintf(m.Source)
 }
 
-func (c *Client) runMigration(db *sql.DB, m *Migration, direction bool) error {
+func (c *client) runMigration(db *sql.DB, m *Migration, direction bool) error {
 	switch filepath.Ext(m.Source) {
 	case ".sql":
 		if err := c.runSQLMigration(db, m.Source, m.Version, direction); err != nil {
@@ -120,7 +120,7 @@ func CreateMigration(name, migrationType, dir string, t time.Time) (path string,
 
 // Update the version table for the given migration,
 // and finalize the transaction.
-func (c *Client) FinalizeMigration(tx *sql.Tx, direction bool, v int64) error {
+func (c *client) FinalizeMigration(tx *sql.Tx, direction bool, v int64) error {
 
 	// XXX: drop goose_db_version table on some minimum version number?
 	stmt := c.Dialect.insertVersionSql(c.TableName)
