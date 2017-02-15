@@ -68,8 +68,6 @@ func (c *client) runMigration(db *sql.DB, m *Migration, direction bool) error {
 		}
 	}
 
-	fmt.Println("OK   ", filepath.Base(m.Source))
-
 	return nil
 }
 
