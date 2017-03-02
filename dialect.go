@@ -17,7 +17,7 @@ func GetDialect() SqlDialect {
 	return globalGoose.Dialect
 }
 
-func (c *client) SetDialect(d string) error {
+func (c *Client) SetDialect(d string) error {
 	switch d {
 	case "postgres":
 		c.Dialect = &PostgresDialect{}

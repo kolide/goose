@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (c *client) Down(db *sql.DB, dir string) error {
+func (c *Client) Down(db *sql.DB, dir string) error {
 	currentVersion, err := c.GetDBVersion(db)
 	if err != nil {
 		return err

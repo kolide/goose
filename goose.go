@@ -10,14 +10,21 @@ var (
 	maxVersion = int64((1 << 63) - 1)
 )
 
-type client struct {
-	TableName  string
-	Dialect    SqlDialect
-	migrations Migrations
+// Client stores the migration state and preferences. Prefer interacting with
+// the Goose API through a Client struct created with New rather than using the
+// global Client and functions.
+type Client struct {
+	// TableName is the name of the table used to store migration status
+	// for this client.
+	TableName string
+	// Dialect is the SqlDialect to use.
+	Dialect SqlDialect
+	// Migrations is the list of migrations.
+	Migrations Migrations
 }
 
-func New(tableName string, dialect SqlDialect) *client {
-	return &client{
+func New(tableName string, dialect SqlDialect) *Client {
+	return &Client{
 		TableName: tableName,
 		Dialect:   dialect,
 	}

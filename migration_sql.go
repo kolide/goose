@@ -135,7 +135,7 @@ func splitSQLStatements(r io.Reader, direction bool) (stmts []string) {
 //
 // All statements following an Up or Down directive are grouped together
 // until another direction directive is found.
-func (c *client) runSQLMigration(db *sql.DB, scriptFile string, v int64, direction bool) error {
+func (c *Client) runSQLMigration(db *sql.DB, scriptFile string, v int64, direction bool) error {
 
 	tx, err := db.Begin()
 	if err != nil {

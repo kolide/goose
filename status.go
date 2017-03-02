@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (c *client) Status(db *sql.DB, dir string) error {
+func (c *Client) Status(db *sql.DB, dir string) error {
 	// collect all migrations
 	migrations, err := c.collectMigrations(dir, minVersion, maxVersion)
 	if err != nil {
