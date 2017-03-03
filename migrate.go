@@ -74,7 +74,7 @@ func (c *Client) AddMigration(up func(*sql.Tx) error, down func(*sql.Tx) error) 
 	v, _ := NumericComponent(filename)
 	migration := &Migration{Version: v, Next: -1, Previous: -1, UpFn: up, DownFn: down, Source: filename}
 
-	c.migrations = append(c.migrations, migration)
+	c.Migrations = append(c.Migrations, migration)
 }
 
 // AddMigration exists for legacy support of the package global use of Goose.
@@ -86,7 +86,7 @@ func AddMigration(up func(*sql.Tx) error, down func(*sql.Tx) error) {
 	v, _ := NumericComponent(filename)
 	migration := &Migration{Version: v, Next: -1, Previous: -1, UpFn: up, DownFn: down, Source: filename}
 
-	globalGoose.migrations = append(globalGoose.migrations, migration)
+	globalGoose.Migrations = append(globalGoose.Migrations, migration)
 }
 
 // collect all the valid looking migration scripts in the
@@ -113,7 +113,7 @@ func (c *Client) collectMigrations(dirpath string, current, target int64) (Migra
 		}
 	}
 
-	for _, migration := range c.migrations {
+	for _, migration := range c.Migrations {
 		v, err := NumericComponent(migration.Source)
 		if err != nil {
 			return nil, err
