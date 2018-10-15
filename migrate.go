@@ -94,22 +94,25 @@ func AddMigration(up func(*sql.Tx) error, down func(*sql.Tx) error) {
 func (c *Client) collectMigrations(dirpath string, current, target int64) (Migrations, error) {
 	var migrations Migrations
 
-	// extract the numeric component of each migration,
-	// filter out any uninteresting files,
-	// and ensure we only have one file per migration version.
-	sqlMigrations, err := filepath.Glob(dirpath + "/*.sql")
-	if err != nil {
-		return nil, err
-	}
-
-	for _, file := range sqlMigrations {
-		v, err := NumericComponent(file)
+	// only load migrations from file if a path is explicitly provided
+	if dirpath != "" {
+		// extract the numeric component of each migration,
+		// filter out any uninteresting files,
+		// and ensure we only have one file per migration version.
+		sqlMigrations, err := filepath.Glob(dirpath + "/*.sql")
 		if err != nil {
 			return nil, err
 		}
-		if versionFilter(v, current, target) {
-			migration := &Migration{Version: v, Next: -1, Previous: -1, Source: file}
-			migrations = append(migrations, migration)
+
+		for _, file := range sqlMigrations {
+			v, err := NumericComponent(file)
+			if err != nil {
+				return nil, err
+			}
+			if versionFilter(v, current, target) {
+				migration := &Migration{Version: v, Next: -1, Previous: -1, Source: file}
+				migrations = append(migrations, migration)
+			}
 		}
 	}
 
